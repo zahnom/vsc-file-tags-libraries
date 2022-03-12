@@ -10,6 +10,14 @@ export class Tags {
         }
     }
 
+    GetFiles(): string[] {
+        let allFiles: string[] = [];
+        Object.entries(this.tags).forEach(([key, value]) => {
+            allFiles.push(key)
+        })
+        return allFiles
+    }
+
     GetTags(file: string): string[] {
         if (this.tags[file] === undefined) {
             return [];

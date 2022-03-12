@@ -64,4 +64,23 @@ describe('Tags', function () {
     });
 
   });
+
+  describe('#GetFiles', function () {
+
+    it('returns empty array when no tagged files', function () {
+      assert.deepEqual(TagsUnderTest.GetFiles(), [])
+    });
+
+    it('returns all tagged files', function () {
+      let file1 = "my/file/1.txt"
+      let file2 = "my/file/2.txt"
+      let file3 = "my/file/3.txt"
+      let tag = "mytag"
+
+      TagsUnderTest.TagFile(file1, tag);
+      TagsUnderTest.TagFile(file2, tag);
+      TagsUnderTest.TagFile(file3, tag);
+      assert.deepEqual(TagsUnderTest.GetFiles(), [file1, file2, file3])
+    });
+  })
 });
