@@ -83,4 +83,23 @@ describe('Tags', function () {
       assert.deepEqual(TagsUnderTest.GetFiles(), [file1, file2, file3])
     });
   })
-});
+
+  describe('#GetTags', function () {
+    it('returns empty array when no tags exist', function () {
+      assert.deepEqual(TagsUnderTest.GetTags(), [])
+    })
+
+    it('returns all existing tags', function () {
+      let file1 = "my/first/file.txt"
+      let file2 = "my/second/file.txt"
+      let tag1 = "myfirsttag"
+      let tag2 = "mysecondtag"
+      let tag3 = "mythirdtag"
+      let tag4 = "myfourthtag"
+
+      TagsUnderTest.TagFile(file1, [tag1, tag2]);
+      TagsUnderTest.TagFile(file2, [tag2, tag3, tag4]);
+      assert.deepEqual(TagsUnderTest.GetTags(), [tag1, tag2, tag3, tag4])
+    })
+  })
+})
