@@ -5,12 +5,12 @@ import { Tags } from '../src/Tags';
 
 let TagsUnderTest: Tags;
 
-describe('Tags', function () {
+describe('Tags.', function () {
   beforeEach(function () {
     TagsUnderTest = new Tags();
   });
 
-  describe('#TagFile', function () {
+  describe('TagFile()', function () {
 
     it('allows to add a tag to a file', function () {
       let file = "my/file.txt"
@@ -65,8 +65,7 @@ describe('Tags', function () {
 
   });
 
-  describe('#GetFiles', function () {
-
+  describe('GetFiles()', function () {
     it('returns empty array when no tagged files', function () {
       assert.deepEqual(TagsUnderTest.GetFiles(), [])
     });
@@ -84,7 +83,7 @@ describe('Tags', function () {
     });
   })
 
-  describe('#GetTags', function () {
+  describe('GetTags()', function () {
     it('returns empty array when no tags exist', function () {
       assert.deepEqual(TagsUnderTest.GetTags(), [])
     })
