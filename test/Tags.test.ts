@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { assert } from 'chai';
-import { fail } from 'assert';
 import { Tags } from '../src/Tags';
 
 let TagsUnderTest: Tags;
