@@ -9,33 +9,32 @@ describe('Tags.', function () {
     TagsUnderTest = new Tags();
   });
 
-  describe('TagFile()', function () {
+  describe('TagFiles()', function () {
 
     it('allows to add a tag to a file', function () {
-      let file = "my/file.txt"
-      let tag = "mytag"
+      let file1 = "my/file1.txt"
+      let file2 = "my/file2.txt"
+      let tag1 = "mytag"
+      let tag2 = "myothertag"
 
-      TagsUnderTest.TagFile(file, tag);
-      assert.deepEqual(TagsUnderTest.GetTags(file), [tag])
+      TagsUnderTest.TagFiles(file1, tag1);
+      TagsUnderTest.TagFiles(file2, tag2);
+      assert.deepEqual(TagsUnderTest.GetTags(file1), [tag1])
+      assert.deepEqual(TagsUnderTest.GetTags(file2), [tag2])
     });
 
     it('allows to add multiple tags to a file', function () {
-      let file = "my/file.txt"
+      let file1 = "my/file1.txt"
+      let file2 = "my/file2.txt"
       let tag1 = "myfirsttag"
       let tag2 = "mysecondtag"
+      let tag3 = "mythirdtag"
 
-      TagsUnderTest.TagFile(file, tag1);
-      TagsUnderTest.TagFile(file, tag2);
-      assert.deepEqual(TagsUnderTest.GetTags(file), [tag1, tag2])
-    });
 
-    it('allows to add an array of tags to a file', function () {
-      let file = "my/file.txt"
-      let tag1 = "myfirsttag"
-      let tag2 = "mysecondtag"
-
-      TagsUnderTest.TagFile(file, [tag1, tag2]);
-      assert.deepEqual(TagsUnderTest.GetTags(file), [tag1, tag2])
+      TagsUnderTest.TagFiles(file1, [tag1, tag2]);
+      TagsUnderTest.TagFiles(file2, [tag1, tag3]);
+      assert.deepEqual(TagsUnderTest.GetTags(file1), [tag1, tag2])
+      assert.deepEqual(TagsUnderTest.GetTags(file2), [tag1, tag3])
     });
 
     it('does not add a tag more than once to a file', function () {
@@ -44,9 +43,19 @@ describe('Tags.', function () {
       let tag2 = "mysecondtag"
       let tag3 = "mysecondtag"
 
-      TagsUnderTest.TagFile(file, [tag1, tag2, tag3]);
+      TagsUnderTest.TagFiles(file, [tag1, tag2, tag3]);
       assert.deepEqual(TagsUnderTest.GetTags(file), [tag1, tag2])
     });
+
+    it('allows to tag multiple files with a tag', function () {
+      let file1 = "my/first/file.txt"
+      let file2 = "my/second/file.txt"
+      let tag = "myfirsttag"
+
+      TagsUnderTest.TagFiles([file1, file2], tag);
+      assert.deepEqual(TagsUnderTest.GetTags(file1), [tag])
+      assert.deepEqual(TagsUnderTest.GetTags(file2), [tag])
+    })
 
     it('allows to tag multiple files with multiple tags', function () {
       let file1 = "my/first/file.txt"
@@ -56,10 +65,9 @@ describe('Tags.', function () {
       let tag3 = "mythirdtag"
       let tag4 = "myfourthtag"
 
-      TagsUnderTest.TagFile(file1, [tag1, tag2]);
-      TagsUnderTest.TagFile(file2, [tag2, tag3, tag4]);
-      assert.deepEqual(TagsUnderTest.GetTags(file1), [tag1, tag2])
-      assert.deepEqual(TagsUnderTest.GetTags(file2), [tag2, tag3, tag4])
+      TagsUnderTest.TagFiles([file1, file2], [tag1, tag2, tag3, tag4]);
+      assert.deepEqual(TagsUnderTest.GetTags(file1), [tag1, tag2, tag3, tag4])
+      assert.deepEqual(TagsUnderTest.GetTags(file2), [tag1, tag2, tag3, tag4])
     });
 
   });
@@ -75,9 +83,9 @@ describe('Tags.', function () {
       let file3 = "my/file/3.txt"
       let tag = "mytag"
 
-      TagsUnderTest.TagFile(file1, tag);
-      TagsUnderTest.TagFile(file2, tag);
-      TagsUnderTest.TagFile(file3, tag);
+      TagsUnderTest.TagFiles(file1, tag);
+      TagsUnderTest.TagFiles(file2, tag);
+      TagsUnderTest.TagFiles(file3, tag);
       assert.deepEqual(TagsUnderTest.GetFiles(), [file1, file2, file3])
     });
   })
@@ -95,8 +103,8 @@ describe('Tags.', function () {
       let tag3 = "mythirdtag"
       let tag4 = "myfourthtag"
 
-      TagsUnderTest.TagFile(file1, [tag1, tag2]);
-      TagsUnderTest.TagFile(file2, [tag2, tag3, tag4]);
+      TagsUnderTest.TagFiles(file1, [tag1, tag2]);
+      TagsUnderTest.TagFiles(file2, [tag2, tag3, tag4]);
       assert.deepEqual(TagsUnderTest.GetTags(), [tag1, tag2, tag3, tag4])
     })
   })
@@ -112,8 +120,8 @@ describe('Tags.', function () {
       let tag1 = "myfirsttag"
       let tag2 = "mysecondtag"
 
-      TagsUnderTest.TagFile(file, tag1)
-      TagsUnderTest.TagFile(file, tag2)
+      TagsUnderTest.TagFiles(file, tag1)
+      TagsUnderTest.TagFiles(file, tag2)
       TagsUnderTest.UntagFiles(file, tag2)
 
       assert.deepEqual(TagsUnderTest.GetTags(), [tag1])
@@ -124,8 +132,8 @@ describe('Tags.', function () {
       let tag1 = "myfirsttag"
       let tag2 = "mysecondtag"
 
-      TagsUnderTest.TagFile(file, tag1)
-      TagsUnderTest.TagFile(file, tag2)
+      TagsUnderTest.TagFiles(file, tag1)
+      TagsUnderTest.TagFiles(file, tag2)
       TagsUnderTest.UntagFiles(file, tag1)
       TagsUnderTest.UntagFiles(file, tag2)
 

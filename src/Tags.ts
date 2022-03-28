@@ -1,13 +1,31 @@
 export class Tags {
     private tags: Record<string, string[]> = {};
 
-    TagFile(file: string, tags: string | string[]) {
-        if (typeof tags == "string") {
-            this.AddTagToFile(file, tags)
+    TagFiles(files: void | string | string[], tags: string | string[]) {
+        let _files: string[]
+        let _tags: string[]
+
+        if (typeof files === "undefined") {
+            _files = this.GetFiles();
+        } else if (typeof files === "string") {
+            _files = [files]
+        } else if (Array.isArray(files)) {
+            _files = files
+        } else {
+            _files = []
+        }
+
+        if (typeof tags === "string") {
+            _tags = [tags]
+        }
+        else if (Array.isArray(tags)) {
+            _tags = tags
         }
         else {
-            tags.forEach(t => this.AddTagToFile(file, t))
+            _tags = []
         }
+
+        this.AddTagsToFiles(_files, _tags)
     }
 
     GetFiles(): string[] {
@@ -35,13 +53,17 @@ export class Tags {
         }
     }
 
-    private AddTagToFile(file: string, tag: string) {
-        if (!this.IsFileTagged(file)) {
-            this.tags[file] = [];
-        }
-        if (!this.tags[file].includes(tag)) {
-            this.tags[file].push(tag);
-        }
+    private AddTagsToFiles(files: string[], tags: string[]) {
+        files.forEach(f => {
+            if (!this.IsFileTagged(f)) {
+                this.tags[f] = [];
+            }
+            tags.forEach(t => {
+                if (!this.tags[f].includes(t)) {
+                    this.tags[f].push(t);
+                }
+            })
+        })
     }
     private RemoveTagFromFile(file: string, tag: string) {
         if (!this.IsFileTagged(file)) return
