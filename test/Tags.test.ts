@@ -100,4 +100,37 @@ describe('Tags.', function () {
       assert.deepEqual(TagsUnderTest.GetTags(), [tag1, tag2, tag3, tag4])
     })
   })
+
+  describe('UntagFiles()', function () {
+    it('does nothing when file does not exist', function () {
+      let file = "my/file/1.txt"
+      TagsUnderTest.UntagFiles(file)
+    })
+
+    it('can remove a tag from a file', function () {
+      let file = "my/file/1.txt"
+      let tag1 = "myfirsttag"
+      let tag2 = "mysecondtag"
+
+      TagsUnderTest.TagFile(file, tag1)
+      TagsUnderTest.TagFile(file, tag2)
+      TagsUnderTest.UntagFiles(file, tag2)
+
+      assert.deepEqual(TagsUnderTest.GetTags(), [tag1])
+    })
+
+    it('can remove all tags from a file', function () {
+      let file = "my/file/1.txt"
+      let tag1 = "myfirsttag"
+      let tag2 = "mysecondtag"
+
+      TagsUnderTest.TagFile(file, tag1)
+      TagsUnderTest.TagFile(file, tag2)
+      TagsUnderTest.UntagFiles(file, tag1)
+      TagsUnderTest.UntagFiles(file, tag2)
+
+      assert.deepEqual(TagsUnderTest.GetTags(), [])
+      assert.deepEqual(TagsUnderTest.GetFiles(), [])
+    })
+  })
 })

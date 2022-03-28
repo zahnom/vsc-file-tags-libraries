@@ -27,13 +27,38 @@ export class Tags {
         }
     }
 
+    UntagFiles(file: string, tag: void | string) {
+        if (!this.IsFileTagged(file)) return
+
+        if (typeof tag == "string") {
+            this.RemoveTagFromFile(file, tag)
+        }
+    }
+
     private AddTagToFile(file: string, tag: string) {
-        if (this.tags[file] === undefined) {
+        if (!this.IsFileTagged(file)) {
             this.tags[file] = [];
         }
         if (!this.tags[file].includes(tag)) {
             this.tags[file].push(tag);
         }
+    }
+    private RemoveTagFromFile(file: string, tag: string) {
+        if (!this.IsFileTagged(file)) return
+
+        const index = this.tags[file].indexOf(tag, 0);
+        if (index > -1) {
+            this.tags[file].splice(index, 1);
+        }
+
+        if (this.tags[file].length == 0) {
+            delete this.tags[file]
+        }
+    }
+    private IsFileTagged(file: string): boolean {
+        if (this.tags[file] === undefined) return false
+        else if (this.tags[file].length == 0) return false
+        else return true
     }
     private GetTagsOfFile(file: string): string[] {
         if (this.tags[file] === undefined) {
