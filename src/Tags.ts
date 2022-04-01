@@ -6,7 +6,7 @@ export class Tags {
         let _tags: string[]
 
         if (typeof files === "undefined") {
-            _files = this.GetFiles();
+            _files = this.GetTaggedFiles();
         } else if (typeof files === "string") {
             _files = [files]
         } else if (Array.isArray(files)) {
@@ -28,12 +28,16 @@ export class Tags {
         this.AddTagsToFiles(_files, _tags)
     }
 
-    GetFiles(): string[] {
-        let allFiles: string[] = [];
-        Object.entries(this.tags).forEach(([key, value]) => {
-            allFiles.push(key)
-        })
-        return allFiles
+    GetTaggedFiles(tags: void | string | string[]): string[] {
+        if (typeof tags === "undefined") {
+            return this.GetAllTaggedFiles();
+        } else if (typeof tags === "string") {
+            return this.GetFilesWithTag(tags)
+        } else if (Array.isArray(tags)) {
+            return this.GetFilesWithTags(tags)
+        } else {
+            return []
+        }
     }
 
     GetTags(file: void | string): string[] {
@@ -87,6 +91,28 @@ export class Tags {
             return [];
         }
         return this.tags[file]
+    }
+    private GetFilesWithTag(tag: string): string[] {
+        return this.GetFilesWithTags([tag])
+    }
+    private GetFilesWithTags(tags: string[]): string[] {
+        let files: Set<string> = new Set()
+        tags.forEach(tag => {
+            Object.entries(this.tags).forEach(([file, tags]) => {
+                const index = tags.indexOf(tag, 0);
+                if (index > -1) {
+                    files.add(file)
+                }
+            })
+        });
+        return Array.from(files);
+    }
+    private GetAllTaggedFiles(): string[] {
+        let files: string[] = [];
+        Object.entries(this.tags).forEach(([key, value]) => {
+            files.push(key)
+        })
+        return files
     }
     private GetAllExistingTags(): string[] {
         let allTags: string[] = [];
