@@ -1,11 +1,13 @@
 {
-  "name": "ts-file-tags",
+  "name": "@zahnom/vsc-file-tags-libraries",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
+  "files": [
+    "lib/**/*"
+  ],
   "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.3.0",
@@ -17,9 +19,24 @@
     "typescript": "^4.6.3"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register 'test/**/*.ts'"
+    "test": "mocha -r ts-node/register 'test/**/*.ts'",
+    "build": "tsc",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test",
+    "postversion": "git push && git push --tags"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zahnom/vsc-file-tags-libraries.git"
+  },
+  "keywords": [
+    "tags",
+    "tagging"
+  ],
+  "author": "Marc Zahno",
+  "license": "ISC",
+  "description": ""
 }
